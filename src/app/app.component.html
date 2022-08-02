@@ -1,0 +1,51 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button class="example-icon">
+    <mat-icon (click)="sideNav.open()" *ngIf="!sideNav.opened" class="mat-18">menu</mat-icon>
+    <mat-icon (click)="sideNav.close()" *ngIf="sideNav.opened" class="mat-18">menu</mat-icon>
+  </button>
+  <span>PKM News</span>
+</mat-toolbar>
+
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #sideNav class="example-sidenav">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRX-vmoynbIyA45oJ8tDzFobu2bV2QKyk43Ag&usqp=CAU" alt="" class="avatar">
+    <h4 style="text-align: center;">PKM Limited</h4>
+    <ng-container *ngFor="let source of sources">
+      <button (click)="searchSource(source)" mat-button class="menu-button">
+        <div>
+          <mat-icon>event_note</mat-icon>
+          <span>{{(source.name.length > 25) ? (source.name | slice:0:10) + '...' : (source.name)}}</span>
+        </div>
+      </button>
+    </ng-container>
+  </mat-drawer>
+
+  <div class="ml-5 mb-0 mt-5 pl-5">
+    <strong style="border-bottom: 3px solid rgb(247, 164, 164); border-style: dashed; font-size: larger;">{{selectedNewsChannel}}</strong>
+  </div>
+  
+  <div class="example-sidenav-content">
+
+    <ng-container *ngFor="let article of articles">
+      <div class="w-full sm:w-1/2 md:w-1/3 flex flex-col p-3">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden flex-1 flex flex-col">
+          <div class="bg-cover h-48"
+          [ngStyle]="{ 'background-image': 'url(' + article.urlToImage + ')'}"></div>
+          <div class="p-4 flex-1 flex flex-col">
+            <h3 class="mb-2 text-2xl">Author: {{article.author}}</h3>
+            <div class="m-0 text-grey-darker text-sm flex-1">
+              <h4>Published On: {{article.publishedAt | date: 'mediumDate'}}</h4>
+            </div>
+            <div class="mb-4 text-grey-darker text-sm flex-1">
+              <p> {{(article.description.length > 150) ? (article.description | slice: 0:150) + '...' : article.description}} </p>
+            </div>
+            <a href="{{article.url}}" target="_blank"
+              class="border-t border-grey-light pt-2 text-xs text-blue hover:text-red uppercase no-underline tracking-wide"
+              >Read more...</a>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+</mat-drawer-container>
