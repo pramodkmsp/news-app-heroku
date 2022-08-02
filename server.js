@@ -3,6 +3,11 @@ const path = require('path');
 const app = express();
 
 const allowedOrigins = ['https://newsapi.org/v2/'];
+
+app.use(express.static(__dirname + '/dist/top-ten-news'));
+app.get('/*', function(req, res) {
+    res.sendFile(path.join(__dirname + '/dist/top-ten-news/index.html'));
+});
 app.use(cors({
     credentials: true,
     origin: (origin, callback) => {
@@ -13,10 +18,4 @@ app.use(cors({
       }
     }
 }));
-
-app.use(express.static(__dirname + '/dist/top-ten-news'));
-app.get('/*', function(req, res) {
-    res.sendFile(path.join(__dirname + '/dist/top-ten-news/index.html'));
-});
-
 app.listen(process.env.PORT || 8080);
